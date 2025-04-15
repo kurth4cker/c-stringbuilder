@@ -27,6 +27,7 @@
  * dynamically-allocated linked-list to enable linear time appending and
  * concatenation.
  */
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -46,7 +47,7 @@ StringBuilder *sb_create()
 /*
  * sb_empty returns non-zero if the given StringBuilder is empty.
  */
-int sb_empty(StringBuilder *sb)
+bool sb_empty(const StringBuilder *sb)
 {
 	return (sb->root == NULL);
 }
@@ -56,8 +57,8 @@ int sb_empty(StringBuilder *sb)
  */
 int sb_append(StringBuilder *sb, const char *str)
 {
-	int				length = 0;
-	StringFragment	*frag = NULL;
+	int length = 0;
+	StringFragment *frag = NULL;
 
 	if (NULL == str || '\0' == *str)
 		return sb->length;
@@ -69,7 +70,7 @@ int sb_append(StringBuilder *sb, const char *str)
 
 	frag->next = NULL;
 	frag->length = length;
-	memcpy((void*) &frag->str, (const void*) str, sizeof(char) * (length + 1));
+	memcpy(&frag->str, str, sizeof(char) * (length + 1));
 
 	sb->length += length;
 	if (NULL == sb->root)
@@ -109,7 +110,7 @@ int sb_appendf(StringBuilder *sb, const char *format, ...)
  * The StringBuilder is not modified by this function and can therefore continue
  * to be used.
  */
-char *sb_concat(StringBuilder *sb)
+char *sb_concat(const StringBuilder *sb)
 {
 	char			*buf = NULL;
 	char			*c = NULL;
