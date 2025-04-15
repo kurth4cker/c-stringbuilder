@@ -12,7 +12,7 @@ IPSUM = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do \
 
 all: main
 
-main: $(SOURCE_FILES) $(HEADERS)
+main: $(SOURCE_FILES) $(SOURCE_HEADERS)
 	gcc -g -o main $(SOURCE_FILES)
 
 clean:
